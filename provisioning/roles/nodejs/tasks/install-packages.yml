@@ -1,0 +1,20 @@
+---
+- name: Form merged list of npm packages
+  set_fact:
+    merged_npm_packages: "{{ default_npm_packages | union(npm_packages) }}"
+
+- name: Show merged npm packages
+  debug:
+    var: merged_npm_packages
+
+- name: Install global npm packages
+  shell: ". {{ ansible_env.HOME }}/.nodenvrc && npm install --global {{ item }}"
+  args:
+    executable: /bin/bash
+    creates: "{{ nodenv_root }}/versions/{{ item }}/bin/node"
+  with_items: "{{ merged_npm_packages }}"
+
+- name: List global npm packages
+  shell: ". {{ ansible_env.HOME }}/.nodenvrc && npm list --global --depth=0"
+  args:
+    executable: /bin/bash

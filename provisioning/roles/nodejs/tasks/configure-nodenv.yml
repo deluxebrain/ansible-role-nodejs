@@ -1,0 +1,19 @@
+---
+- name: Create .nodenvrc file
+  template:
+    src: .nodenvrc.j2
+    dest: "{{ ansible_env.HOME }}/.nodenvrc"
+    mode: "0644"
+
+- name: Install nodejs runtimes
+  shell: ". {{ ansible_env.HOME }}/.nodenvrc && nodenv install {{ item }}"
+  args:
+    executable: /bin/bash
+    creates: "{{ nodenv_root }}/versions/{{ item }}/bin/node"
+  with_items: "{{ nodejs_versions }}"
+
+- name: Set global nodejs version
+  shell: ". {{ ansible_env.HOME }}/.nodenvrc && nodenv global {{ default_version }}"
+  args:
+    executable: /bin/bash
+

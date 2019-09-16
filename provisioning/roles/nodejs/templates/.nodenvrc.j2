@@ -1,0 +1,9 @@
+# Add pyenv into path
+export NODENV_ROOT="{{ nodenv_root }}"
+export PATH="${NODENV_ROOT}/bin:${PATH}"
+
+# Initialise nodenv if installed
+if command -v nodenv >/dev/null 2>&1 ; then
+    eval "$(nodenv init -)"
+    . "$NODENV_ROOT/completions/nodenv.bash"
+fi
