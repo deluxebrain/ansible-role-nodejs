@@ -1,0 +1,16 @@
+---
+- name: Debug nodenv version
+  debug:
+    msg: "Version of nodenv to install: {{ nodenv.version }}"
+
+- name: Install nodenv
+  git:
+    repo: "{{ nodenv.repo }}"
+    dest: "{{ nodenv.path }}"
+    version: "{{ nodenv.version }}"
+
+- name: Create .nodenvrc file
+  template:
+    src: .nodenvrc.j2
+    dest: "{{ ansible_env.HOME }}/.nodenvrc"
+    mode: 0644

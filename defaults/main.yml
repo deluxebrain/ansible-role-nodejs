@@ -1,0 +1,9 @@
+---
+nodenv_version: latest
+nodebuild_version: latest
+nodenvvars_version: latest
+nodejs:
+  default_version:
+  versions: []
+plugins: []
+init_shell: yes
