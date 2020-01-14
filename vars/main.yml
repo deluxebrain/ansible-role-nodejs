@@ -3,7 +3,7 @@ nodenv:
   repo: https://github.com/nodenv/nodenv.git
   path: "{{ ansible_env.HOME }}/.nodenv"
   version: >-
-    {{ (nodenv_version == 'latest') | ternary('HEAD', nodenv_version) }}
+    {{ (nodenv_version == 'latest') | ternary('HEAD', 'v' + nodenv_version) }}
 
 default_plugins:
   - name: node-build

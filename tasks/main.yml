@@ -48,7 +48,7 @@
 
     - name: Set global nodejs version
       raw: "NODENV_ROOT={{ nodenv.path }} {{ nodenv.path }}/bin/nodenv global {{ nodejs.default_version }}"
-      when: global_nodejs_version.stdout | lower is search("system")
+      when: not global_nodejs_version.stdout is search(nodejs.default_version)
   when: nodejs.default_version is defined and nodejs.default_version | length > 0
 
 - include_tasks: configure-shell.yml
