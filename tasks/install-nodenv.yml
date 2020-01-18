@@ -11,6 +11,6 @@
 
 - name: Create .nodenvrc file
   template:
-    src: .nodenvrc.j2
+    src: nodenvrc.j2
     dest: "{{ ansible_env.HOME }}/.nodenvrc"
     mode: 0644
