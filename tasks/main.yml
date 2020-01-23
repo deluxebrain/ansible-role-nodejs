@@ -42,12 +42,14 @@
 - name: Set global nodejs version
   block:
     - name: Check global nodejs version
-      raw: "NODENV_ROOT={{ nodenv.path }} {{ nodenv.path }}/bin/nodenv global"
+      shell: "NODENV_ROOT={{ nodenv.path }} \
+        {{ nodenv.path }}/bin/nodenv global" # noqa 305
       register: global_nodejs_version
       changed_when: False
 
     - name: Set global nodejs version
-      raw: "NODENV_ROOT={{ nodenv.path }} {{ nodenv.path }}/bin/nodenv global {{ nodejs.default_version }}"
+      shell: "NODENV_ROOT={{ nodenv.path }} \
+        {{ nodenv.path }}/bin/nodenv global {{ nodejs.default_version }}" # noqa 305
       when: not global_nodejs_version.stdout is search(nodejs.default_version)
   when: nodejs.default_version is defined and nodejs.default_version | length > 0
 

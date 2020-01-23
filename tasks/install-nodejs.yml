@@ -5,6 +5,7 @@
   register: nodejs_exists
 
 - name: Install nodejs {{ item }}
-  raw: "NODENV_ROOT={{ nodenv.path }} {{ nodenv.path }}/bin/nodenv install {{ item }}"
+  shell: "NODENV_ROOT={{ nodenv.path }} \
+    {{ nodenv.path }}/bin/nodenv install {{ item }}" # noqa 305
   notify: rehash
   when: nodejs_exists.stat is defined and not nodejs_exists.stat.exists
