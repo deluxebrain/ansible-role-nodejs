@@ -37,21 +37,21 @@
 - name: Install nodejs versions
   include: install-nodejs.yml
   with_items:
-    - "{{ nodejs.versions }}"
+    - "{{ nodejs_versions }}"
 
 - name: Set global nodejs version
   block:
     - name: Check global nodejs version
       shell: "NODENV_ROOT={{ nodenv.path }} \
         {{ nodenv.path }}/bin/nodenv global" # noqa 305
-      register: global_nodejs_version
+      register: current_global_nodejs_version
       changed_when: False
 
     - name: Set global nodejs version
       shell: "NODENV_ROOT={{ nodenv.path }} \
-        {{ nodenv.path }}/bin/nodenv global {{ nodejs.default_version }}" # noqa 305
-      when: not global_nodejs_version.stdout is search(nodejs.default_version)
-  when: nodejs.default_version is defined and nodejs.default_version | length > 0
+        {{ nodenv.path }}/bin/nodenv global {{ global_nodejs_version }}" # noqa 305
+      when: current_global_nodejs_version.stdout != global_nodejs_version
+  when: global_nodejs_version is defined and global_nodejs_version | length > 0
 
 - include_tasks: configure-shell.yml
   when: init_shell | bool

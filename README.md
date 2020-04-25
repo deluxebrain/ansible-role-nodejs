@@ -22,9 +22,9 @@ Individual variables can be set or overridden by setting them in a playbook for 
   - nodenv-vars version to install
 - `init_shell`: ( default: yes )
   - Configure shell to load nodenv
-- `nodejs.default_version`: ( default: "" )
+- `global_nodejs_version`: ( default: "" )
   - Version of Node.js to use by default
-- `nodejs.versions`: ( default: [] )
+- `nodejs_versions`: ( default: [] )
   - List of Node.js versions to install
 - `plugins`: ( default: [] )
   - List of plugins to install, specified as a list of:
@@ -49,17 +49,40 @@ Example below for the following:
   roles:
       - deluxebrain.python
         nodenv_version: 1.3.1
-        nodejs:
-          default_version: 12.3.1
-          versions:
+        global_nodenv_version: 12.3.1
+        nodenv_versions:
             - 12.3.1
-          plugins:
-            - name: nodenv-default-packages
-              repo: https://github.com/nodenv/nodenv-default-packages.git
-              version: latest
+        plugins:
+          - name: nodenv-default-packages
+            repo: https://github.com/nodenv/nodenv-default-packages.git
+            version: latest
 ```
 
-## Usage
+## Development Installation
+
+The included files, `requirements-dev.txt` and `requirements.txt` install development and production dependencies accordingly.
+
+The included Makefile includes several targets related to the installation of the development environment and the management of the development process.
+
+Packages are managed through the `pip-tools` suite. This, and other development requirements, are installed through the `requirements-dev.txt` file.
+
+```sh
+# Create project virtual environment
+# Install development dependencies into virtual environment
+make install
+```
+
+`pip-tools` manages the project dependencies through the included `requirements.in` file, and is responsible both for the generation of the `requirements.txt` file and package installion into the virtual environment.
+
+Note that this means that the `requirements.txt` file *should not be manually edited* and must be regenerated every time the `requirements.in` file is changed.
+
+```sh
+# Compile the requirements.in file to requirements.txt
+# Install the requirements.txt pacakges into the virtual environment
+make sync
+```
+
+## Role usage
 
 ### `nodenv`
 

@@ -1,0 +1,17 @@
+---
+- name: Converge
+  hosts: all
+
+  pre_tasks:
+    - name: "Update apt cache"
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family | lower == 'debian'
+
+  tasks:
+    - name: "Include ansible-role-nodejs"
+      include_role:
+        name: "ansible-role-nodejs"
+      vars:
+        nodejs_versions:
+          - 12.3.1
+        global_nodejs_version: 12.3.1

@@ -1,0 +1,41 @@
+---
+- name: Verify
+  hosts: all
+
+  # Note: Role variables are not available during molecule test
+  # Therefore must redeclare here
+
+  vars:
+    nodenv:
+      path: "{{ ansible_env.HOME }}/.nodenv"
+
+  tasks:
+    - name: "Verify nodenv is installed"
+      shell: "NODENV_ROOT={{ nodenv.path }} \
+        {{ nodenv.path }}/bin/nodenv --version"
+      register: nodenv_version_command
+
+    - assert:
+        that: "nodenv_version_command.rc == 0"
+        fail_msg: "nodenv is not installed"
+        success_msg: "nodenv is installed"
+
+    - name: "Verify nodejs 12.3.1 is installed"
+      shell: "NODENV_ROOT={{ nodenv.path }} \
+        {{ nodenv.path }}/bin/nodenv versions"
+      register: nodenv_versions_command
+
+    - assert:
+        that: "'12.3.1' in nodenv_versions_command.stdout"
+        fail_msg: "nodejs 12.3.1 is not installed"
+        success_msg: "nodejs 12.3.1 is installed"
+
+    - name: "Verify global nodejs is set to 12.3.1"
+      shell: "NODENV_ROOT={{ nodenv.path }} \
+        {{ nodenv.path }}/bin/nodenv global"
+      register: nodenv_global_command
+
+    - assert:
+        that: "'12.3.1' in nodenv_global_command.stdout"
+        fail_msg: "Global nodejs not set to 12.3.1"
+        success_msg: "Global nodejs set to 12.3.1"
