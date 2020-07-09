@@ -60,11 +60,9 @@ Example below for the following:
 
 ## Development Installation
 
-The included files, `requirements-dev.txt` and `requirements.txt` install development and production dependencies accordingly.
+Packages are split into development and production dependencies, which are managed through the included files `requirements-dev.txt` and `requirements.txt` respectively.
 
-The included Makefile includes several targets related to the installation of the development environment and the management of the development process.
-
-Packages are managed through the `pip-tools` suite. This, and other development requirements, are installed through the `requirements-dev.txt` file.
+Production packages are managed through the `pip-tools` suite, which installs and synchronizes the project dependencies through the included `requirements.in` file.
 
 ```sh
 # Create project virtual environment
@@ -72,9 +70,9 @@ Packages are managed through the `pip-tools` suite. This, and other development 
 make install
 ```
 
-`pip-tools` manages the project dependencies through the included `requirements.in` file, and is responsible both for the generation of the `requirements.txt` file and package installion into the virtual environment.
+`pip-tools` is responsible for the generation of the `requirements.txt` which is a fully pinned requirements file used for both synchronizing the Python virtual environment and for the installation of packages within a production environment.
 
-Note that this means that the `requirements.txt` file *should not be manually edited* and must be regenerated every time the `requirements.in` file is changed.
+Note that this means that the `requirements.txt` file *should not be manually edited* and must be regenerated every time the `requirements.in` file is changed. This is done as follows, which also synchronizes any package changes into the virtual environment:
 
 ```sh
 # Compile the requirements.in file to requirements.txt
@@ -82,9 +80,11 @@ Note that this means that the `requirements.txt` file *should not be manually ed
 make sync
 ```
 
+`pip-tools` and other development requirements are installed through the `requirements-dev.txt` file, as follows:
+
 ## Role usage
 
-### `nodenv`
+NodeJS versions are managed through `nodenv`.
 
 `nodenv` allows you to use multiple Node versions on your machine.
 
@@ -99,7 +99,7 @@ mkdir ~/my-project && cd $_
 nodenv local 12.3.1   # creates .node-version
 ```
 
-### `npm`
+## Package management using npm
 
 The use of npm for creating a new project is demonstated in the following example:
 
@@ -112,6 +112,8 @@ npm install <package>
 ```
 
 Note that `npx` should be used in preference to installing packages globally.
+
+## Other tools
 
 ### `nodenv-vars`
 

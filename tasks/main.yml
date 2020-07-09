@@ -1,17 +1,17 @@
 ---
-- name: Load variables for the target system
+- name: "Load variables for the target system"
   include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_os_family | lower }}.yml"
     - default.yml
 
-- name: Set apt to use https
+- name: "Set apt to use https"
   become: yes
   apt:
     name: apt-transport-https
     state: present
 
-- name: Install system dependencies
+- name: "Install system dependencies"
   become: yes
   package:
     name: "{{ item }}"
@@ -21,33 +21,33 @@
   until: result is succeeded
   with_items: "{{ system_dependencies }}"
 
-- include_tasks: install-nodenv.yml
+- include_tasks: "install-nodenv.yml"
 
-- name: Install plugins
+- name: "Install plugins"
   block:
-    - name: Form merged list of plugins
+    - name: "Form merged list of plugins"
       set_fact:
         merged_plugins: "{{ default_plugins | union(plugins) }}"
 
-    - name: Install plugin {{ item.name }}
+    - name: "Install plugin {{ item.name }}"
       include: install-plugins.yml
       with_items: "{{ merged_plugins }}"
       when: merged_plugins | length > 0
 
-- name: Install nodejs versions
+- name: "Install nodejs versions"
   include: install-nodejs.yml
   with_items:
     - "{{ nodejs_versions }}"
 
-- name: Set global nodejs version
+- name: "Set global nodejs version"
   block:
-    - name: Check global nodejs version
+    - name: "Check global nodejs version"
       shell: "NODENV_ROOT={{ nodenv.path }} \
         {{ nodenv.path }}/bin/nodenv global" # noqa 305
       register: current_global_nodejs_version
       changed_when: False
 
-    - name: Set global nodejs version
+    - name: "Set global nodejs version"
       shell: "NODENV_ROOT={{ nodenv.path }} \
         {{ nodenv.path }}/bin/nodenv global {{ global_nodejs_version }}" # noqa 305
       when: current_global_nodejs_version.stdout != global_nodejs_version

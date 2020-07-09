@@ -1,10 +1,10 @@
 ---
-- name: Check for nodejs {{ item }}
+- name: "Check for nodejs {{ item }}"
   stat:
     path: "{{ nodenv.path }}/versions/{{ item }}"
   register: nodejs_exists
 
-- name: Install nodejs {{ item }}
+- name: "Install nodejs {{ item }}"
   shell: "NODENV_ROOT={{ nodenv.path }} \
     {{ nodenv.path }}/bin/nodenv install {{ item }}" # noqa 305
   notify: rehash

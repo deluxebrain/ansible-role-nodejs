@@ -1,7 +1,7 @@
 ---
-nodenv_version: latest
-nodebuild_version: latest
-nodenvvars_version: latest
+nodenv_version: "latest"
+nodebuild_version: "latest"
+nodenvvars_version: "latest"
 
 nodejs_versions: []
 global_nodejs_version:

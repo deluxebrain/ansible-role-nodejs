@@ -1,14 +1,14 @@
 ---
 nodenv:
-  repo: https://github.com/nodenv/nodenv.git
+  repo: "https://github.com/nodenv/nodenv.git"
   path: "{{ ansible_env.HOME }}/.nodenv"
   version: >-
     {{ (nodenv_version == 'latest') | ternary('HEAD', 'v' + nodenv_version) }}
 
 default_plugins:
   - name: node-build
-    repo: https://github.com/nodenv/node-build.git
+    repo: "https://github.com/nodenv/node-build.git"
     version: "{{ nodebuild_version }}"
   - name: nodenv-vars
-    repo: https://github.com/nodenv/nodenv-vars.git
+    repo: "https://github.com/nodenv/nodenv-vars.git"
     version: "{{ nodenvvars_version }}"
