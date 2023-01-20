@@ -4,7 +4,7 @@ nodebuild_version: "latest"
 nodenvvars_version: "latest"
 
 nodejs_versions: []
-global_nodejs_version:
+global_nodejs_version: ""
 
 plugins: []
 
